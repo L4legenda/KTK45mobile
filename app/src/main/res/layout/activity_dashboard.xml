@@ -97,9 +97,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_shape_circle"
                 android:orientation="vertical"
-                android:paddingLeft="30dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="10dp"
-                android:paddingRight="30dp"
+                android:paddingRight="20dp"
                 android:paddingBottom="10dp">
 
                 <ImageView
@@ -160,9 +160,9 @@
                 android:layout_weight="1"
                 android:background="@drawable/background_shape_circle"
                 android:orientation="vertical"
-                android:paddingLeft="30dp"
+                android:paddingLeft="20dp"
                 android:paddingTop="10dp"
-                android:paddingRight="30dp"
+                android:paddingRight="20dp"
                 android:paddingBottom="10dp">
 
                 <ImageView
