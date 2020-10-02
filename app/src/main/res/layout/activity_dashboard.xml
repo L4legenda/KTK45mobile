@@ -63,6 +63,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/LinerLayoutTimetable"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -72,8 +73,8 @@
                 android:orientation="vertical"
                 android:paddingLeft="20dp"
                 android:paddingTop="10dp"
-                android:paddingRight="20dp"
 
+                android:paddingRight="20dp"
                 android:paddingBottom="10dp">
 
                 <ImageView
