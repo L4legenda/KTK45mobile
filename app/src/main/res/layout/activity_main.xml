@@ -9,7 +9,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="460dp"
+        android:layout_height="560dp"
         android:background="@color/colorBlack"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -17,7 +17,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="450dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
         android:background="@drawable/background_main"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="172dp"
         android:text="Здравствуй!"
         android:textColor="@color/colorWhite"
         android:textSize="40dp"
@@ -38,8 +38,8 @@
         android:id="@+id/text_welcomeDesc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="22dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="240dp"
         android:text="Рады тебя видеть!"
         android:textColor="@color/colorWhite"
         android:textSize="16dp"
@@ -51,7 +51,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="220dp"
+        android:layout_marginTop="316dp"
         android:background="@drawable/button_shape_circle"
         android:text="Войти"
         android:textColor="#fff"
@@ -59,30 +59,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:alpha="0.8"
-            android:text="У вас нет данных ?"
-            android:textAlignment="center"
-            android:textColor="@color/colorBlack" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Войти без учетной записи"
-            android:textAlignment="center"
-            android:textColor="@color/colorRed" />
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

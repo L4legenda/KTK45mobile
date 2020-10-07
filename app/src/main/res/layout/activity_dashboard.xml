@@ -147,7 +147,7 @@
                     android:src="@drawable/ar" />
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/textView_notData"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -175,7 +175,7 @@
                     android:src="@drawable/news" />
 
                 <TextView
-                    android:id="@+id/textView4"
+                    android:id="@+id/textView_notAuth"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
