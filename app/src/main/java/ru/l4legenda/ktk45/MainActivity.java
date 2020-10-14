@@ -23,10 +23,10 @@ public class MainActivity extends Activity {
         String Login = myPreferences.getString("Login", "unknown");
         String Password = myPreferences.getString("Password", "unknown");
 
-        if(Login != null && Password != null){
-            Intent nextScreen = new Intent(MainActivity.this, dashboard.class);
-            startActivity(nextScreen);
-        }
+//        if(Login != null && Password != null){
+//            Intent nextScreen = new Intent(MainActivity.this, dashboard.class);
+//            startActivity(nextScreen);
+//        }
 
         btn_main_login.setOnClickListener(new View.OnClickListener() {
             @Override

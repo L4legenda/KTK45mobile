@@ -36,7 +36,8 @@
             android:inputType="textPersonName"
             android:paddingStart="15dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
+            android:paddingBottom="5dp"
+            android:text="13410" />
 
         <EditText
             android:id="@+id/editTextTextPassword"
@@ -48,7 +49,8 @@
             android:inputType="textPassword"
             android:paddingStart="15dp"
             android:paddingTop="5dp"
-            android:paddingBottom="5dp" />
+            android:paddingBottom="5dp"
+            android:text="467cf5bf" />
 
         <Button
             android:id="@+id/btnLogin"

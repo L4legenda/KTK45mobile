@@ -48,6 +48,7 @@ public class Login extends Activity {
 
     private String Login = "";
     private String Password = "";
+    private String Token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +107,8 @@ public class Login extends Activity {
                         if(response.get("Error").equals(null)){
                             Log.d("Parse", "Вход разрешён");
 
+                            Token = response.get("Session").toString();
+
                             SharedPreferences myPreferences
                                     = PreferenceManager.getDefaultSharedPreferences(Login.this);
                             SharedPreferences.Editor myEditor = myPreferences.edit();
@@ -114,6 +117,8 @@ public class Login extends Activity {
                             myEditor.putString("Password", Password);
                             myEditor.putString("Token", response.get("Session").toString());
                             myEditor.commit();
+
+                            parseInfoUser();
 
                             nextScreen();
                         }else{
@@ -151,6 +156,54 @@ public class Login extends Activity {
             };
             queue.add(jsonObjectRequest);
         } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    private void parseInfoUser(){
+        //Отправка запроса на сервер
+        try {
+            RequestQueue queue = Volley.newRequestQueue(this);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST, "https://ktk-45.ru/api/user/select-info", null, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+
+                    try {
+
+                        if(response.get("Error").equals(null)){
+                            Log.d("ParseUser", "Нормальное данные");
+                            Log.d("ParseUser", response.toString());
+
+                        }else{
+                            Log.d("ParseUser", "Неправильный Token данные");
+                        }
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.d("Error.Response", error.toString());
+                }
+            }
+            ){
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8; Authorization=" + Token;
+                }
+
+
+            };
+            queue.add(jsonObjectRequest);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
