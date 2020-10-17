@@ -15,13 +15,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.JsonObject;
@@ -36,19 +34,11 @@ import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+import ru.l4legenda.ktk45.setting.cloud;
 import ru.l4legenda.ktk45.api.User;
 import ru.l4legenda.ktk45.api.UserApi;
 
 public class Login extends Activity {
-
-    private String Login = "";
-    private String Password = "";
-    private String Token = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +53,8 @@ public class Login extends Activity {
                 TextView login = (TextView) findViewById(R.id.editTextTextPersonName);
                 TextView password = (TextView) findViewById(R.id.editTextTextPassword);
 
-                Login = login.getText().toString();
-                Password = password.getText().toString();
+                cloud.Login = login.getText().toString();
+                cloud.Password = password.getText().toString();
 
                 parseLogin();
             }
@@ -93,8 +83,8 @@ public class Login extends Activity {
             RequestQueue queue = Volley.newRequestQueue(this);
             JSONObject jsonBody = new JSONObject();
 
-            jsonBody.put("Login", Login);
-            jsonBody.put("Password", Password);
+            jsonBody.put("Login", cloud.Login);
+            jsonBody.put("Password", cloud.Password);
             final String mRequestBody = jsonBody.toString();
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -107,14 +97,14 @@ public class Login extends Activity {
                         if(response.get("Error").equals(null)){
                             Log.d("Parse", "Вход разрешён");
 
-                            Token = response.get("Session").toString();
+                            cloud.Token = response.get("Session").toString();
 
                             SharedPreferences myPreferences
                                     = PreferenceManager.getDefaultSharedPreferences(Login.this);
                             SharedPreferences.Editor myEditor = myPreferences.edit();
 
-                            myEditor.putString("Login", Login);
-                            myEditor.putString("Password", Password);
+                            myEditor.putString("Login", cloud.Login);
+                            myEditor.putString("Password", cloud.Password);
                             myEditor.putString("Token", response.get("Session").toString());
                             myEditor.commit();
 
@@ -177,6 +167,16 @@ public class Login extends Activity {
                         if(response.get("Error").equals(null)){
                             Log.d("ParseUser", "Нормальное данные");
                             Log.d("ParseUser", response.toString());
+                            JSONObject dataObject = response.getJSONObject("Data");
+                            Log.d("ParseUser", dataObject.toString());
+
+                            String branchString = dataObject.getString("Branch");
+                            cloud.Branch = branchString;
+                            Log.d("Branch", branchString);
+
+                            String groupString = dataObject.getJSONObject("Group").getString("String");
+                            Log.d("ParseUser", groupString);
+                            cloud.Group = groupString;
 
                         }else{
                             Log.d("ParseUser", "Неправильный Token данные");
@@ -196,8 +196,14 @@ public class Login extends Activity {
             }
             ){
                 @Override
-                public String getBodyContentType() {
-                    return "application/json; charset=utf-8; Authorization=" + Token;
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Log.d("Token", cloud.Token);
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("User-Agent", "Nintendo Gameboy");
+                    params.put("Accept-Language", "fr");
+                    params.put("Authorization", cloud.Token);
+
+                    return params;
                 }
 
 
