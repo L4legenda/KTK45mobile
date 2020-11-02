@@ -1,10 +1,8 @@
 package ru.l4legenda.ktk45;
 
-import androidx.annotation.DrawableRes;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Layout;
@@ -23,7 +21,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.gson.JsonArray;
+
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +38,7 @@ import ru.l4legenda.ktk45.setting.cloud;
 
 public class timetable extends Activity {
     LinearLayout layoutContent;
+    LinearLayout layoutDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +86,8 @@ public class timetable extends Activity {
 
                             int dayCounter = 0;
 
+                            Map<Integer, LinearLayout> llClassList = new HashMap<Integer, LinearLayout>();
+
                             for(int i = 0; i < dataArray.length(); i++){
                                 JSONObject objectArray = (JSONObject) dataArray.get(i);
                                 Log.d("Object", objectArray.toString());
@@ -96,12 +97,33 @@ public class timetable extends Activity {
 
 
                                 if(dayCounter != date.getDay()){
+                                    if(dayCounter > 0){
+                                        for(int j : llClassList.keySet())
+                                            layoutDay.addView(llClassList.get(j));
+                                    }
+                                    llClassList = new HashMap<Integer, LinearLayout>();
                                     dayCounter = date.getDay();
                                     createDay(date.getDay());
 
-                                }
-                            }
 
+                                }
+                                int id = objectArray.getInt("Pair");
+
+                                if(!llClassList.containsKey(id)){
+                                    llClassList.put(id, createllClass(id));
+                                }
+
+                                llClassList.get(id).addView(
+                                        createClass(
+                                                objectArray.getInt("Pair"),
+                                                objectArray.getString("DisciplineFull"),
+                                                objectArray.getString("Discipline"),
+                                                objectArray.getString("LectureHall"),
+                                                objectArray.getString("Teacher"),
+                                                objectArray.getString("Subgroup")
+                                        )
+                                );
+                            }
                         }else{
                             Log.d("ParseUser", "Неправильный данные");
                         }
@@ -173,9 +195,9 @@ public class timetable extends Activity {
         Log.d("createDay", String.valueOf(getTitleDay(day)));
         LinearLayout.LayoutParams lp;
 
-        LinearLayout layoutDay = new LinearLayout(this);
+        layoutDay = new LinearLayout(this);
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        lp.setMargins(20,30,20,0);
+        lp.setMargins(30,30,30,0);
         layoutDay.setOrientation(LinearLayout.VERTICAL);
         layoutDay.setLayoutParams(lp);
 
@@ -185,7 +207,7 @@ public class timetable extends Activity {
         title.setBackgroundColor( getResources().getColor(R.color.colorRed) );
         title.setTextColor( getResources().getColor(R.color.colorWhite) );
         title.setTextSize(20);
-        title.setPadding(0, 5, 0, 5);
+        title.setPadding(0, 5, 0, 10);
         title.setGravity(Gravity.CENTER);
         title.setLayoutParams(lp);
 
@@ -194,8 +216,123 @@ public class timetable extends Activity {
         layoutContent.addView(layoutDay);
 
 
+    }
+
+    private LinearLayout createClass(int n, String DisciplineFull, String Discipline, String numKab, String TeacherFull, String type){
+
+        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+        Typeface italicTypeface = Typeface.defaultFromStyle(Typeface.ITALIC);
+
+        LinearLayout.LayoutParams lp;
+//        LinearLayout llClass = new LinearLayout(this);
+//        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+//        llClass.setOrientation(LinearLayout.HORIZONTAL);
+//        llClass.setLayoutParams(lp);
+//        llClass.setBackgroundColor( getResources().getColor(R.color.colorWhite) );
+        float weight;
+        String disciplin = DisciplineFull;
+        String pedagog = TeacherFull;
+
+        String[] TeacherArr = pedagog.split(" ");
+        String Teacher = TeacherArr[0] + " " + TeacherArr[1].substring(0, 1) + ". " + TeacherArr[2].substring(0, 1) + ".";
+
+        if(type.equals("middle")){
+            weight = 2f;
+        }else{
+            disciplin = Discipline;
+            weight = 1f;
+            pedagog = Teacher;
+        }
 
 
+        LinearLayout llContent = new LinearLayout(this);
+        if(type.equals("middle")){
+            lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, weight);
+        }else{
+            lp = new LinearLayout.LayoutParams(getPx(160), LinearLayout.LayoutParams.WRAP_CONTENT, weight);
+        }
+
+        lp.setMargins(5,5,10,10);
+        llContent.setLayoutParams(lp);
+        llContent.setBackgroundColor( getResources().getColor(R.color.colorGray)  );
+        llContent.setOrientation(LinearLayout.VERTICAL);
+        llContent.setPadding(20,5,20,5);
+        if(type.equals("right")){
+            llContent.setGravity(Gravity.RIGHT);
+        }else if(type.equals("left")){
+            llContent.setGravity(Gravity.LEFT);
+        }
+
+
+
+        LinearLayout llTitle = new LinearLayout(this);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        llTitle.setOrientation(LinearLayout.HORIZONTAL);
+        llTitle.setLayoutParams(lp);
+
+        TextView namePredmeta = new TextView(this);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        namePredmeta.setLayoutParams(lp);
+        namePredmeta.setTypeface(boldTypeface);
+        namePredmeta.setText(disciplin);
+        namePredmeta.setTextColor( getResources().getColor(R.color.colorBlack) );
+
+
+        llTitle.addView(namePredmeta);
+
+        TextView numKabineta = new TextView(this);
+        lp = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        numKabineta.setLayoutParams(lp);
+        numKabineta.setTypeface(boldTypeface);
+        numKabineta.setText(numKab);
+        numKabineta.setGravity(Gravity.RIGHT);
+        numKabineta.setTextColor( getResources().getColor(R.color.colorBlack) );
+
+        llTitle.addView(numKabineta);
+
+
+        llContent.addView( llTitle );
+
+        TextView namePedagog = new TextView(this);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        namePedagog.setLayoutParams(lp);
+        namePedagog.setTypeface(italicTypeface);
+        namePedagog.setText(pedagog);
+        namePedagog.setTextSize(12);
+        namePedagog.setTextColor( getResources().getColor(R.color.colorBlack) );
+
+
+        llContent.addView(namePedagog);
+
+
+        return llContent;
+
+
+
+
+    }
+
+    private LinearLayout createllClass(int n){
+        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+
+        LinearLayout.LayoutParams lp;
+        LinearLayout llClass = new LinearLayout(this);
+        lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        llClass.setOrientation(LinearLayout.HORIZONTAL);
+        llClass.setLayoutParams(lp);
+        llClass.setBackgroundColor( getResources().getColor(R.color.colorWhite) );
+
+        TextView num = new TextView(this);
+        lp = new LinearLayout.LayoutParams(100, LinearLayout.LayoutParams.MATCH_PARENT, 1f);
+        num.setText(String.valueOf(n));
+        num.setGravity(Gravity.CENTER);
+        num.setTextColor( getResources().getColor(R.color.colorBlack) );
+        num.setTextSize(20);
+        num.setTypeface(boldTypeface);
+        num.setLayoutParams(lp);
+        llClass.addView(num);
+
+        return llClass;
     }
 
     private String getTitleDay(int day){
@@ -209,4 +346,38 @@ public class timetable extends Activity {
             default: return "Ошибка";
         }
     }
+
+
+
+
+
+
+
+
+    public int getPx(int dp){
+        float scale = getResources().getDisplayMetrics().density;
+        return((int) (dp * scale + 0.5f));
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

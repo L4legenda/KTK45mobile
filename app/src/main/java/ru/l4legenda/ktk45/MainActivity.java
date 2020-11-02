@@ -37,4 +37,9 @@ public class MainActivity extends Activity {
         });
 
     }
+
+    public int getPx(int dp){
+        float scale = getResources().getDisplayMetrics().density;
+        return((int) (dp * scale + 0.5f));
+    }
 }
