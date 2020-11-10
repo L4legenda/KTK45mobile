@@ -40,10 +40,16 @@ import ru.l4legenda.ktk45.api.UserApi;
 
 public class Login extends Activity {
 
+
+    SharedPreferences myPreferences;
+    SharedPreferences.Editor myEditor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+
 
         // Кнопка авторизации
         Button btnLogin = (Button) findViewById(R.id.btnLogin);
@@ -52,6 +58,8 @@ public class Login extends Activity {
             public void onClick(View view) {
                 TextView login = (TextView) findViewById(R.id.editTextTextPersonName);
                 TextView password = (TextView) findViewById(R.id.editTextTextPassword);
+
+
 
                 cloud.Login = login.getText().toString();
                 cloud.Password = password.getText().toString();
@@ -96,21 +104,25 @@ public class Login extends Activity {
 
                         if(response.get("Error").equals(null)){
                             Log.d("Parse", "Вход разрешён");
-
                             cloud.Token = response.get("Session").toString();
 
-                            SharedPreferences myPreferences
-                                    = PreferenceManager.getDefaultSharedPreferences(Login.this);
-                            SharedPreferences.Editor myEditor = myPreferences.edit();
 
+
+                            myPreferences = PreferenceManager.getDefaultSharedPreferences(Login.this);
+                            myEditor = myPreferences.edit();
                             myEditor.putString("Login", cloud.Login);
                             myEditor.putString("Password", cloud.Password);
                             myEditor.putString("Token", response.get("Session").toString());
+
                             myEditor.commit();
 
                             parseInfoUser();
 
                             nextScreen();
+
+
+
+
                         }else{
                             Log.d("Parse", "Вход не разрешён");
                         }
@@ -161,22 +173,34 @@ public class Login extends Activity {
                     Request.Method.POST, "https://ktk-45.ru/api/user/select-info", null, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-
+                    Log.d("ParseUserTest", "Начало обработки юзера");
                     try {
 
                         if(response.get("Error").equals(null)){
+
+
                             Log.d("ParseUser", "Нормальное данные");
                             Log.d("ParseUser", response.toString());
                             JSONObject dataObject = response.getJSONObject("Data");
-                            Log.d("ParseUser", dataObject.toString());
+                            Log.d("ParseUserData", dataObject.toString());
 
                             String branchString = dataObject.getString("Branch");
+                            Log.d("ParseUserBranch", branchString);
                             cloud.Branch = branchString;
-                            Log.d("Branch", branchString);
+
+
 
                             String groupString = dataObject.getJSONObject("Group").getString("String");
-                            Log.d("ParseUser", groupString);
+                            Log.d("ParseUserGroup", groupString);
                             cloud.Group = groupString;
+
+
+                            myPreferences = PreferenceManager.getDefaultSharedPreferences(Login.this);
+                            myEditor = myPreferences.edit();
+                            myEditor.putString("Branch", cloud.Branch);
+                            myEditor.putString("Group", cloud.Group);
+                            myEditor.commit();
+
 
                         }else{
                             Log.d("ParseUser", "Неправильный Token данные");

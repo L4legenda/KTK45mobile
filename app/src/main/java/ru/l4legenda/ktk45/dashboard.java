@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import ru.l4legenda.ktk45.diary;
 
 public class dashboard extends Activity {
 
@@ -23,5 +24,16 @@ public class dashboard extends Activity {
                 startActivity(nextScreen);
             }
         });
+
+        LinearLayout LLDiray = (LinearLayout) findViewById(R.id.LinerLayoutDiary);
+
+        LLDiray.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent nextScreen = new Intent(dashboard.this, diary.class);
+                startActivity(nextScreen);
+            }
+        });
+
     }
 }

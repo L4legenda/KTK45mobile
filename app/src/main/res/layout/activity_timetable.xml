@@ -75,7 +75,8 @@
                 android:background="@drawable/background_shape_circle_setting"
                 android:gravity="center"
                 android:text="Настройки"
-                android:textColor="@color/colorWhite" />
+                android:textColor="@color/colorWhite"
+                android:visibility="invisible" />
 
 
         </LinearLayout>
