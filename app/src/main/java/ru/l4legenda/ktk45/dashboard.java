@@ -16,6 +16,8 @@ public class dashboard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+
+
         LinearLayout LLTimetable = (LinearLayout) findViewById(R.id.LinerLayoutTimetable);
         LLTimetable.setOnClickListener(new View.OnClickListener() {
             @Override
