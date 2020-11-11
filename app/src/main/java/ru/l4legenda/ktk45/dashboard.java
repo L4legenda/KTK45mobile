@@ -7,16 +7,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import ru.l4legenda.ktk45.diary;
 
 public class dashboard extends Activity {
+
+    TextView Surname;
+    TextView Name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        Surname = findViewById(R.id.textViewSurname);
+        Name = findViewById(R.id.textViewName);
 
+        Surname.setText("Кто-то");
+        Name.setText("");
 
         LinearLayout LLTimetable = (LinearLayout) findViewById(R.id.LinerLayoutTimetable);
         LLTimetable.setOnClickListener(new View.OnClickListener() {
