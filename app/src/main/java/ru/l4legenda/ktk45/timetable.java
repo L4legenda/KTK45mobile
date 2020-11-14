@@ -54,7 +54,7 @@ public class timetable extends Activity {
             }
         });
 
-        layoutContent = findViewById(R.id.LayoutContent);
+        layoutContent = (LinearLayout) findViewById(R.id.LayoutContent);
 
         pushTimetable();
     }

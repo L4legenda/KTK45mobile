@@ -3,7 +3,6 @@ package ru.l4legenda.ktk45;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
-import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -12,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -41,6 +41,9 @@ import ru.l4legenda.ktk45.api.UserApi;
 public class Login extends Activity {
 
 
+    EditText login;
+    EditText password;
+
     SharedPreferences myPreferences;
     SharedPreferences.Editor myEditor;
 
@@ -49,6 +52,14 @@ public class Login extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        login = (EditText) findViewById(R.id.editTextTextPersonName);
+        password = (EditText) findViewById(R.id.editTextTextPassword);
+
+
+        if(!cloud.Login.equals("unknown") && !cloud.Password.equals("unknown")){
+            login.setText(cloud.Login);
+            password.setText(cloud.Password);
+        }
 
 
         // Кнопка авторизации
@@ -56,10 +67,6 @@ public class Login extends Activity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView login = (TextView) findViewById(R.id.editTextTextPersonName);
-                TextView password = (TextView) findViewById(R.id.editTextTextPassword);
-
-
 
                 cloud.Login = login.getText().toString();
                 cloud.Password = password.getText().toString();
@@ -194,11 +201,27 @@ public class Login extends Activity {
                             Log.d("ParseUserGroup", groupString);
                             cloud.Group = groupString;
 
+                            String nameString = dataObject.getString("Name");
+                            Log.d("ParseUserName", nameString);
+                            cloud.Name = nameString;
+
+                            String surnameString = dataObject.getString("Surname");
+                            Log.d("ParseUserSurname", surnameString);
+                            cloud.Surname = surnameString;
+
+                            String patronymicString = dataObject.getString("Patronymic");
+                            Log.d("ParseUserPatronymic", patronymicString);
+                            cloud.Patronymic = patronymicString;
+
+
 
                             myPreferences = PreferenceManager.getDefaultSharedPreferences(Login.this);
                             myEditor = myPreferences.edit();
                             myEditor.putString("Branch", cloud.Branch);
                             myEditor.putString("Group", cloud.Group);
+                            myEditor.putString("Name", cloud.Name);
+                            myEditor.putString("Surname", cloud.Surname);
+                            myEditor.putString("Patronymic", cloud.Patronymic);
                             myEditor.commit();
 
 

@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import ru.l4legenda.ktk45.diary;
+import ru.l4legenda.ktk45.setting.cloud;
 
 public class dashboard extends Activity {
 
@@ -21,11 +22,11 @@ public class dashboard extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
-        Surname = findViewById(R.id.textViewSurname);
-        Name = findViewById(R.id.textViewName);
+        Surname = (TextView) findViewById(R.id.textViewSurname);
+        Name = (TextView) findViewById(R.id.textViewName);
 
-        Surname.setText("Кто-то");
-        Name.setText("");
+        Surname.setText(cloud.Surname);
+        Name.setText(cloud.Name + " " + cloud.Patronymic);
 
         LinearLayout LLTimetable = (LinearLayout) findViewById(R.id.LinerLayoutTimetable);
         LLTimetable.setOnClickListener(new View.OnClickListener() {

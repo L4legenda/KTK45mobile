@@ -8,4 +8,9 @@ public class cloud {
 
     public static String Branch = "";
     public static String Group = "";
+
+
+    public static String Name = "";
+    public static String Surname = "";
+    public static String Patronymic = "";
 }

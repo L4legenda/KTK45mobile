@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.HashMap;
+
 import ru.l4legenda.ktk45.setting.cloud;
 
 public class MainActivity extends Activity {
@@ -29,20 +31,42 @@ public class MainActivity extends Activity {
         String Token = myPreferences.getString("Token", "unknown");
         String Branch = myPreferences.getString("Branch", "unknown");
         String Group = myPreferences.getString("Group", "unknown");
+        String Name = myPreferences.getString("Name", "unknown");
+        String Surname = myPreferences.getString("Surname", "unknown");
+        String Patronymic = myPreferences.getString("Patronymic", "unknown");
 
         Log.d("FileSaveLogin", Login);
         Log.d("FileSavePassword", Password);
         Log.d("FileSaveToken", Token);
         Log.d("FileSaveBranch", Branch);
         Log.d("FileSaveGroup", Group);
+        Log.d("FileSaveName", Name);
+        Log.d("FileSaveSurname", Surname);
+        Log.d("FileSavePatronymic", Patronymic);
+
+        HashMap<String, String> data = new HashMap<String, String>();
+
+        data.put("Login", Login);
+        data.put("Password", Password);
+        data.put("Token", Token);
+        data.put("Branch", Branch);
+        data.put("Group", Group);
+        data.put("Name", Name);
+        data.put("Surname", Surname);
+        data.put("Patronymic", Patronymic);
 
         cloud.Login = Login;
         cloud.Password = Password;
         cloud.Token = Token;
         cloud.Branch = Branch;
         cloud.Group = Group;
+        cloud.Name = Name;
+        cloud.Surname = Surname;
+        cloud.Patronymic = Patronymic;
 
-        if(!Login.equals("unknown")  && !Password.equals("unknown") && !Token.equals("unknown") && !Branch.equals("unknown") && !Group.equals("unknown")){
+
+
+        if(isData(data)){
             Intent nextScreen = new Intent(MainActivity.this, dashboard.class);
             startActivity(nextScreen);
         }
@@ -60,5 +84,13 @@ public class MainActivity extends Activity {
     public int getPx(int dp){
         float scale = getResources().getDisplayMetrics().density;
         return((int) (dp * scale + 0.5f));
+    }
+
+
+    private boolean isData(HashMap<String, String> data){
+        boolean is = true;
+        for(String key : data.keySet())
+            if (data.get(key).equals("unknown")) is = false;
+        return is;
     }
 }

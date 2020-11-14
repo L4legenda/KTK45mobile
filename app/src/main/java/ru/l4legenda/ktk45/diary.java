@@ -154,6 +154,10 @@ public class diary extends Activity {
 
 
     private void createDay(int day){
+
+
+
+
         Log.d("createDay", String.valueOf(data.getTitleDay(day)));
         LinearLayout.LayoutParams lp;
 
@@ -172,6 +176,7 @@ public class diary extends Activity {
         title.setBackgroundColor( getResources().getColor(R.color.colorRed) );
         title.setTextColor( getResources().getColor(R.color.colorWhite) );
         title.setTextSize(18);
+
         title.setPadding(0, getPx(10), 0, getPx(10));
         title.setGravity(Gravity.CENTER);
         title.setLayoutParams(lp);
@@ -182,6 +187,11 @@ public class diary extends Activity {
     }
 
     private void addPredmet(String predmet, String otmetka){
+
+        Typeface boldTypeface = Typeface.defaultFromStyle(Typeface.BOLD);
+        Typeface italicTypeface = Typeface.defaultFromStyle(Typeface.ITALIC);
+
+
         LinearLayout.LayoutParams lp;
         LinearLayout llContent = new LinearLayout(this);
         lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, getPx(50));
@@ -200,7 +210,8 @@ public class diary extends Activity {
         name.setPadding(10, 0, 0, 0);
         name.setText(predmet);
         name.setTextColor( getResources().getColor(R.color.colorBlack) );
-        name.setTextSize(18);
+        name.setTextSize(14);
+        name.setTypeface(boldTypeface);
 
         TextView ocenka = new TextView(this);
         lp = new LinearLayout.LayoutParams(getPx(80), LinearLayout.LayoutParams.MATCH_PARENT, 1);

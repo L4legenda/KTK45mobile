@@ -42,7 +42,8 @@
 <!--                android:layout_height="wrap_content"-->
 <!--                android:orientation="vertical"-->
 <!--                android:paddingLeft="40dp"-->
-<!--                android:paddingRight="40dp">-->
+<!--                android:paddingRight="40dp"-->
+<!--                >-->
 
 <!--                <Button-->
 <!--                    android:id="@+id/button2"-->

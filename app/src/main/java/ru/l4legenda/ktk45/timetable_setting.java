@@ -2,6 +2,7 @@ package ru.l4legenda.ktk45;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,7 +11,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class timetable_setting extends AppCompatActivity {
+public class timetable_setting extends Activity {
 
     String[] BranchData = {"Автоматизация и вычислительная техника", "Автосервис", "Технология и дизайн", "Шатровский филиал"};
     String[] GroupData = {"101", "102", "103"};
